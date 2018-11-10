@@ -17,9 +17,9 @@ class ToDoList extends Component {
 
   handleFormSubmit = event => {
     const { addFormValue } = this.state;
-    const { addToDo } = this.props;
-    event.preventDefault();
-    addToDo({ title: addFormValue });
+    const { addToDo, auth } = this.props;
+    event.preventDefault();    
+    addToDo({ title: addFormValue }, auth.uid);
     this.setState({ addFormValue: "" });
   };
 
@@ -55,11 +55,6 @@ class ToDoList extends Component {
     }
     return (
       <div className="col s10 offset-s1 center-align">
-        <img
-          alt="Nothing was found"
-          id="nothing-was-found"
-          src="/img/nothing.png"
-        />
         <h4>You have completed all the tasks</h4>
         <p>Start by clicking add button in the bottom of the screen</p>
       </div>
@@ -67,7 +62,7 @@ class ToDoList extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchToDos();
+    this.props.fetchToDos(this.props.auth.uid);
   }
 
   render() {
@@ -95,9 +90,10 @@ class ToDoList extends Component {
   }
 }
 
-const mapStateToProps = ({ data }) => {
+const mapStateToProps = ({ data, auth }) => {
   return {
-    data
+    data,
+    auth
   };
 };
 
