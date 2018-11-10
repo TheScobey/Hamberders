@@ -7,7 +7,7 @@
 .pnp.js
 
 .firebaserc
-*.cache
+.firebase
 
 # testing
 /coverage
