@@ -11,16 +11,13 @@ class Signin extends Component {
 
   render() {
     return (
-      this.props.auth ? <div>Sign Out</div> :
-      <div className="row social-signin-container">
-        <div className="col s10 offset-s1 center-align">
-          <h4 id="sign-in-header">Sign In to start</h4>
-          <a href="#" className="social-signin" onClick={this.props.signIn}>
-            <i className="fa fa-google social-signin-icon" />
-            Sign In With Google
-          </a>
+      this.props.auth ?
+        <div onClick={this.props.signIn}>
+          <h4>Sign Out</h4>
+        </div> :
+        <div onClick={this.props.signIn}>
+          <h4>Sign In With Google</h4>
         </div>
-      </div>
     );
   }
 }

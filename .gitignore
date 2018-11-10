@@ -7,6 +7,7 @@
 .pnp.js
 
 .firebaserc
+*.cache
 
 # testing
 /coverage
@@ -14,6 +15,7 @@
 # production
 /build
 /src/config/prod.js
+/src/config/dev.js
 
 # misc
 .DS_Store
