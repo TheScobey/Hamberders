@@ -1,8 +1,8 @@
-import "./SignIn.css";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../../actions";
 import PropTypes from "prop-types";
+import Button from '@material-ui/core/Button';
 
 class Signin extends Component {
   static contextTypes = {
@@ -12,12 +12,9 @@ class Signin extends Component {
   render() {
     return (
       this.props.auth ?
-        <div onClick={this.props.signIn}>
-          <h4>Sign Out</h4>
-        </div> :
-        <div onClick={this.props.signIn}>
-          <h4>Sign In With Google</h4>
-        </div>
+        <Button color="inherit" onClick={this.props.signOut}>Logout</Button>
+        : 
+        <Button color="inherit" onClick={this.props.signIn}>Login</Button>
     );
   }
 }

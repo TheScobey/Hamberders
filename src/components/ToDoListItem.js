@@ -1,29 +1,41 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { completeToDo } from "../actions";
+import Button from '@material-ui/core/Button';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 class ToDoListItem extends Component {
   handleCompleteClick = completeToDoId => {
-    const { completeToDo } = this.props;
-    completeToDo(completeToDoId);
+    const { completeToDo, auth } = this.props;
+    completeToDo(completeToDoId, auth.uid);
   };
 
   render() {
     const { todoId, todo } = this.props;
     return (
-      <div key="toDoName" className="col s10 offset-s1 to-do-list-item teal">
-        <h4>
-          {todo.title}{" "}
-          <span
+        <ListItem>
+          <ListItemText>
+            {todo.title}
+          </ListItemText>
+          <ListItemSecondaryAction
+            variant="contained"
+            color="primary"
             onClick={() => this.handleCompleteClick(todoId)}
             className="complete-todo-item waves-effect waves-light teal lighten-5 teal-text text-darken-4 btn"
           >
-            <i className="large material-icons">done</i>
-          </span>
-        </h4>
-      </div>
+            Done
+          </ListItemSecondaryAction>
+        </ListItem>
     );
   }
 }
 
-export default connect(null, { completeToDo })(ToDoListItem);
+const mapStateToProps = ({ auth }) => {
+  return {
+    auth
+  };
+};
+
+export default connect(mapStateToProps, { completeToDo })(ToDoListItem);

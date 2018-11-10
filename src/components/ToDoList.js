@@ -1,9 +1,9 @@
-import "./ToDoList.css";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 import * as actions from "../actions";
 import ToDoListItem from "./ToDoListItem";
+import List from '@material-ui/core/List';
 
 class ToDoList extends Component {
   state = {
@@ -69,10 +69,10 @@ class ToDoList extends Component {
     const { addFormVisible } = this.state;
     return (
       <div className="to-do-list-container">
-        <div className="row">
-          {this.renderAddForm()}
+        {this.renderAddForm()}
+        <List>
           {this.renderToDos()}
-        </div>
+        </List>
         <div className="fixed-action-btn">
           <button
             onClick={() => this.setState({ addFormVisible: !addFormVisible })}

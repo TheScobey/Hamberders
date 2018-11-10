@@ -7,19 +7,7 @@ export default function(ComposedComponent) {
     static contextTypes = {
       router: PropTypes.object
     };
-/*
-    componentWillMount() {
-      if (this.props.authenticated === null) {
-        this.context.router.history.push("/");
-      }
-    }
-
-    componentWillUpdate(nextProps) {
-      if (!nextProps.authenticated) {
-        this.context.router.history.push("/");
-      }
-    }
-*/
+    
     render() {
       if (this.props.authenticated) {
         return <ComposedComponent {...this.props} />;
