@@ -9,6 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import PageAppBar from "./components/page/PageAppBar";
 import white from '@material-ui/core/colors/pink';
+import 'react-calendar-heatmap/dist/styles.css';
+import VisitsList from "./components/VisitsList";
 
 const theme = createMuiTheme({
   palette: {
@@ -33,7 +35,8 @@ class App extends Component {
             <PageAppBar />
             <Grid item xs={12}>
               <Paper>
-                <Route path="/" component={requireAuth(ToDoList)} />
+                <Route path="/todo" component={requireAuth(ToDoList)} />
+                <Route path="/" component={requireAuth(VisitsList)} />
               </Paper>
             </Grid>
           </Grid>
