@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SignIn from '../auth/SignIn';
@@ -32,11 +31,8 @@ function PageAppBar(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" className={classes.grow}>
-                        A Title
+                        Burger Tracker v1.02
                     </Typography>
-                    <Avatar
-                        children="WS"
-                    />
                     <SignIn />
                 </Toolbar>
             </AppBar>

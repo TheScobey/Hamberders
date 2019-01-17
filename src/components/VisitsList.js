@@ -8,26 +8,6 @@ import CalendarHeatmap from 'react-calendar-heatmap';
 import ReactTooltip from 'react-tooltip';
 
 class VisitsList extends Component {
-  state = {
-    addFormVisible: false,
-    addFormValue: ""
-  };
-
-  handleInputChange = event => {
-    this.setState({ addFormValue: event.target.value });
-  };
-
-  handleFormSubmit = event => {
-    const { addFormValue } = this.state;
-    const { addVisits, auth } = this.props;
-    event.preventDefault();
-
-    var today = new Date();
-
-    addVisits({ datetime: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() }, auth.uid);
-    this.setState({ addFormValue: "" });
-  };
-
   addAVisit(value) {
     const { addVisits, auth } = this.props;
     
@@ -35,42 +15,36 @@ class VisitsList extends Component {
       addVisits({ datetime: value.date }, auth.uid);
   }
 
-  renderAddForm = () => {
-    const { addFormVisible, addFormValue } = this.state;
-    if (addFormVisible) {
-      return (
-        <div id="todo-add-form" className="col s10 offset-s1">
-          <form onSubmit={this.handleFormSubmit}>
-            <div className="input-field">
-              <i className="material-icons prefix">Add Visit</i>
-              <input
-                value={addFormValue}
-                onChange={this.handleInputChange}
-                id="toDoNext"
-                type="text"
-              />
-              <label htmlFor="toDoNext">Your visit</label>
-            </div>
-          </form>
-        </div>
-      );
-    }
-  };
+  removeAVisit(visitId){
+    const { removeVisits, auth } = this.props;
+
+    if(visitId)
+      removeVisits(visitId, auth.uid);
+  }
 
   getValueVisits(){
     const { data } = this.props;
     
     const visitsMapped = _.map(data, (value, key) => {
-      return { date: value.datetime, fake: false };
+      return { vid: key, date: value.datetime, fake: false };
     });
 
     
     var fakes = [];
 
-    for(var i = 1; i <= 31; i++){
+    var startDate = new Date("12/31/2018");
+    var endDate  = new Date("01/01/2020");
+
+    const allDates = this.getDates(startDate, endDate);
+
+    /*for(var i = 1; i <= 31; i++){
       fakes.push(
         { date: `2019-01-${i < 10 ? '0' + i : i}`, fake: true },)
-    }
+    }*/
+
+    fakes = allDates.map((v,k) => {
+      return { date: v, fake: true }
+    });
 
     fakes = fakes.filter(f => !visitsMapped.some(p => p.date === f.date))
 
@@ -81,33 +55,34 @@ class VisitsList extends Component {
     return fakes;
   }
 
-  renderVisits() {
-    const { data } = this.props;
-    const visits = _.map(data, (value, key) => {
-      return <ToDoListItem key={key} todoId={key} todo={value} />;
-    });
-    if (!_.isEmpty(visits)) {
-      return visits;
-    }
-    return (
-      <div className="col s10 offset-s1 center-align">
-        <h4>You have no visits</h4>
-        <p>Start by clicking add button in the bottom of the screen</p>
-      </div>
-    );
-  }
-
   componentWillMount() {
     this.props.fetchVisits(this.props.auth.uid);
   }
 
+  getDates( d1, d2 ){
+    var oneDay = 24*3600*1000;
+    for (var d=[],ms=d1*1,last=d2*1;ms<last;ms+=oneDay){
+      d.push( this.formatDate(new Date(ms)) );
+    }
+    return d;
+  }
+
+  formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
   render() {
-    const { addFormVisible } = this.state;
     return (
       <div className="to-do-list-container">
-        {this.renderAddForm()}
-
-        <h1>Rascal Visits</h1>
+        <h1>Burgers Consumed</h1>
         <CalendarHeatmap
           tooltipDataAttrs={value => {
             return {
@@ -118,7 +93,7 @@ class VisitsList extends Component {
           startDate={new Date('2019-01-01')}
           endDate={new Date('2020-01-01')}
           values={this.getValueVisits()}
-          onClick={value => this.addAVisit(value)}
+          onClick={value => value.fake ? this.addAVisit(value) : this.removeAVisit(value.vid)}
           classForValue={(value) => {
             if (!value || value.fake === true) {
               return 'color-empty';
@@ -126,22 +101,6 @@ class VisitsList extends Component {
             return `color-scale-1`;
           }}
         />
-        {
-          /*
-        <div className="fixed-action-btn">
-          <button
-            onClick={() => this.setState({ addFormVisible: !addFormVisible })}
-            className="btn-floating btn-large teal darken-4"
-          >
-            {addFormVisible ? (
-              <i className="large material-icons">close</i>
-            ) : (
-                <i className="large material-icons">add</i>
-              )}
-          </button>
-        </div>
-        */
-        }
         <ReactTooltip />
       </div>
     );

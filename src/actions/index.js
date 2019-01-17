@@ -17,6 +17,13 @@ export const addVisits = (newVisit, uid) => async dispatch => {
     .set(newVisit);
 };
 
+export const removeVisits = (visitKey, uid) => async dispatch => {
+  visitsRef
+    .child(uid)
+    .child(visitKey)
+    .remove(0);
+};
+
 export const addToDo = (newToDo, uid) => async dispatch => {
   todosRef
     .child(uid)
