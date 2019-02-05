@@ -95,17 +95,20 @@ class VisitsList extends Component {
               if (!value) {
                 return 'color-empty';
               }
+
+              var classes = [];
+              if(value.date == todaysDate){
+                classes.push(this.props.classes.gridToday);
+              }
               
               if(value.fake === true) {
-                if(value.date == todaysDate){
-                  return this.props.classes.gridToday
-                }
-
-                return 'color-empty';
+                classes.push('color-empty');
+              } else {
+                classes.push(this.props.classes.grid1);
               }
 
+              return classes.reduce((a, b) => a + ' ' + b);
               
-              return this.props.classes.grid1;
               
             }}
           />
@@ -132,8 +135,7 @@ const styles = theme => ({
     fill: 'black'
   },
   gridToday: {
-    stroke: 'red',
-    fill: '#eeeeee'
+    stroke: 'red'
   }
 });
 
