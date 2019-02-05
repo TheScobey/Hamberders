@@ -73,29 +73,42 @@ class VisitsList extends Component {
   }
 
   render() {
+    const todaysDate = this.formatDate(new Date());
+
     return (
       <Paper className={this.props.classes.root} elevation={1}>
         <Typography variant="h5" component="h3">
           {this.props.auth.displayName}'s Burgers Consumed
         </Typography>
-        <CalendarHeatmap
-          tooltipDataAttrs={value => {
-            return {
-              'data-tip': `${value.date ? value.date : ''}`,
-            };
-          }}
-          showWeekdayLabels={true}
-          startDate={new Date('2018-12-31')}
-          endDate={new Date('2019-07-01')}
-          values={this.getValueVisits()}
-          onClick={value => value.fake ? this.addAVisit(value) : this.removeAVisit(value.vid)}
-          classForValue={(value) => {
-            if (!value || value.fake === true) {
-              return 'color-empty';
-            }
-            return `color-scale-1`;
-          }}
-        />
+          <CalendarHeatmap
+            tooltipDataAttrs={value => {
+              return {
+                'data-tip': `${value.date ? value.date : ''}`,
+              };
+            }}
+            showWeekdayLabels={true}
+            startDate={new Date('2018-12-31')}
+            endDate={new Date('2019-07-01')}
+            values={this.getValueVisits()}
+            onClick={value => value.fake ? this.addAVisit(value) : this.removeAVisit(value.vid)}
+            classForValue={(value) => {
+              if (!value) {
+                return 'color-empty';
+              }
+              
+              if(value.fake === true) {
+                if(value.date == todaysDate){
+                  return this.props.classes.gridToday
+                }
+
+                return 'color-empty';
+              }
+
+              
+              return this.props.classes.grid1;
+              
+            }}
+          />
         <ReactTooltip />
       </Paper>
     );
@@ -115,6 +128,13 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
+  grid1: {
+    fill: 'black'
+  },
+  gridToday: {
+    stroke: 'red',
+    fill: '#eeeeee'
+  }
 });
 
 export default connect(mapStateToProps, actions)(withStyles(styles)(VisitsList));
