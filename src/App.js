@@ -32,7 +32,7 @@ class App extends Component {
             direction="row"
           >
             <PageAppBar />
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} md={6}>
                 <Route path="/" component={requireAuth(VisitsList)} />
             </Grid>
             {
