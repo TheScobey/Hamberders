@@ -35,11 +35,11 @@ class App extends Component {
             <Grid item xs={12} md={6}>
                 <Route path="/" component={requireAuth(VisitsList)} />
             </Grid>
-            {
-            /*<Grid item xs={12} sm={6}>
+            {/*
+            <Grid item xs={12} sm={6}>
                 <Route path="/" component={requireAuth(FileUploader)} />
-            </Grid>*/
-            }
+            </Grid>
+            */}
           </Grid>
         </MuiThemeProvider>
       </BrowserRouter>

@@ -131,6 +131,7 @@ class VisitsList extends Component {
             {
               DateChoices.map((choice, i) =>
                 <Button
+                  key={choice.id}
                   variant={this.state.selectedRange.id === DateChoices[i].id ? "contained" : "outlined"}
                   size="small"
                   color="primary"
