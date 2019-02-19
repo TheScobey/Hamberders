@@ -9,19 +9,32 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
+const todaysDate = new Date(); //this.formatDate(new Date());
+
 const DateChoices = [
   {
+    id: 0,
     label: "3 months",
-    value: new Date('2019-03-01')
+    value: {
+      startDate: todaysDate.setMonth(todaysDate.getMonth() - 1),
+      endDate: todaysDate.setMonth(todaysDate.getMonth() + 2)
+    }
   },
-  {
+  /*{
+    id: 1,
     label: "6 months",
-    value: new Date('2019-06-01')
-  },
-
+    value: {
+      startDate: new Date("2018-12-31"),
+      endDate: todaysDate.setMonth(todaysDate.getMonth() + 4)
+    }
+  },*/
   {
-    label: "12 months",
-    value: new Date('2020-01-01')
+    id: 2,
+    label: "All",
+    value: {
+      startDate: new Date("2018-12-31"),
+      endDate: todaysDate.setMonth(todaysDate.getMonth() + 1),
+    }
   }
 ]
 
@@ -30,13 +43,13 @@ class VisitsList extends Component {
     super(props);
 
     this.state = {
-      dateEnd: DateChoices[1].value
+      selectedRange: DateChoices[0]
     };
   }
 
   onDateEndChange(value) {
     this.setState({
-      dateEnd: value
+      selectedRange: value
     });
   }
 
@@ -104,10 +117,9 @@ class VisitsList extends Component {
   }
 
   render() {
-    const todaysDate = this.formatDate(new Date());
 
-    const startDate = this.formatDate(new Date('2018-12-31'));
-
+    const calcStartDate = this.state.selectedRange ? this.state.selectedRange.value.startDate : new Date('2018-01-01')
+    const calcEndDate = this.state.selectedRange ? this.state.selectedRange.value.endDate : new Date('2020-01-01')
 
     return (
       <Paper className={this.props.classes.root} elevation={1}>
@@ -115,16 +127,19 @@ class VisitsList extends Component {
           <Typography variant="h5" component="h3">
             {this.props.auth.displayName}'s Burgers Consumed
         </Typography>
-          <div>
-            <Button variant={this.state.dateEnd === DateChoices[0].value ? "contained" : "outlined"} size="small" color="primary" className={this.props.classes.margin} onClick={this.onDateEndChange.bind(this, DateChoices[0].value)}>
-              3 months
-            </Button>
-            <Button variant={this.state.dateEnd === DateChoices[1].value ? "contained" : "outlined"} size="small" color="primary" className={this.props.classes.margin} onClick={this.onDateEndChange.bind(this, DateChoices[1].value)}>
-              6 months
-            </Button>
-            <Button variant={this.state.dateEnd === DateChoices[2].value ? "contained" : "outlined"} size="small" color="primary" className={this.props.classes.margin} onClick={this.onDateEndChange.bind(this, DateChoices[2].value)}>
-              12 months
-          </Button>
+          <div style={{display: 'flex'}}>
+            {
+              DateChoices.map((choice, i) =>
+                <Button
+                  variant={this.state.selectedRange.id === DateChoices[i].id ? "contained" : "outlined"}
+                  size="small"
+                  color="primary"
+                  className={this.props.classes.margin}
+                  onClick={this.onDateEndChange.bind(this, DateChoices[i])}>
+                    {choice.label}
+                </Button>
+              )
+            }
           </div>
         </div>
         <CalendarHeatmap
@@ -134,8 +149,8 @@ class VisitsList extends Component {
             };
           }}
           showWeekdayLabels={true}
-          startDate={startDate}
-          endDate={this.state.dateEnd}
+          startDate={calcStartDate}
+          endDate={calcEndDate}
           values={this.getValueVisits()}
           onClick={value => value.fake ? this.addAVisit(value) : this.removeAVisit(value.vid)}
           classForValue={(value) => {
@@ -144,7 +159,7 @@ class VisitsList extends Component {
             }
 
             var classes = [];
-            if (value.date == todaysDate) {
+            if (value.date == this.formatDate(new Date())) {
               classes.push(this.props.classes.gridToday);
             }
 
