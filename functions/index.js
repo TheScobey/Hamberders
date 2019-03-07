@@ -33,6 +33,20 @@ exports.makeUppercase = functions.database.ref('/messages/{pushId}/original')
 });
 
 
+exports.visitsGlobalTally = functions.https.onCall((req, res) => {
+  // Grab the text parameter.
+  const original = req.query.text;
+
+  return admin
+      .database()
+      .ref('/visits/Ipt2DXfZ1PgfHcZ6o5QjnMOma9C2')
+      .once('value')
+      .then(snapshot => {
+        res.json(snapshot.val())
+      })
+   
+})
+
 
 // let's trigger this function with a file upload to google cloud storage
 exports.fileUploaded = functions.storage.object().onFinalize(event => {

@@ -1,5 +1,5 @@
-import { todosRef, authRef, provider, visitsRef } from "../config/firebase";
-import { FETCH_TODOS, FETCH_USER, FETCH_VISITS } from "./types";
+import { todosRef, authRef, provider, visitsRef, getGlobalVisitsTally } from "../config/firebase";
+import { FETCH_TODOS, FETCH_USER, FETCH_VISITS, FETCH_GLOBAL_VISITS_TALLY } from "./types";
 
 export const fetchVisits = uid => async dispatch => {
   visitsRef.child(uid).on("value", snapshot => {
@@ -8,6 +8,23 @@ export const fetchVisits = uid => async dispatch => {
       payload: snapshot.val()
     });
   });
+};
+
+export const fetchGlobalVisitsTally = () => async dispatch => {
+  getGlobalVisitsTally()
+    .then(function (result) {
+      // Read result of the Cloud Function.
+      dispatch({
+        type: FETCH_GLOBAL_VISITS_TALLY,
+        payload: result.data.text
+      });
+    }).catch(function(error) {
+      // Getting the Error details.
+      console.log(error.code);
+      console.log(error.message);
+      console.log(error.details);
+    });
+    ;
 };
 
 export const addVisits = (newVisit, uid) => async dispatch => {
@@ -66,7 +83,7 @@ export const fetchUser = () => dispatch => {
 export const signIn = () => dispatch => {
   authRef
     .signInWithPopup(provider)
-    .then(result => {})
+    .then(result => { })
     .catch(error => {
       console.log(error);
     });

@@ -94,6 +94,7 @@ class VisitsList extends Component {
 
   componentWillMount() {
     this.props.fetchVisits(this.props.auth.uid);
+    this.props.fetchGlobalVisitsTally();
   }
 
   getDates(d1, d2) {
