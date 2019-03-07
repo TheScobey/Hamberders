@@ -127,7 +127,7 @@ class VisitsList extends Component {
           <Typography variant="h5" component="h3">
             {this.props.auth.displayName}'s Burgers Consumed
         </Typography>
-          <div style={{display: 'flex'}}>
+          <div style={{ display: 'flex' }}>
             {
               DateChoices.map((choice, i) =>
                 <Button
@@ -137,7 +137,7 @@ class VisitsList extends Component {
                   color="primary"
                   className={this.props.classes.margin}
                   onClick={this.onDateEndChange.bind(this, DateChoices[i])}>
-                    {choice.label}
+                  {choice.label}
                 </Button>
               )
             }
