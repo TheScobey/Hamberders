@@ -12,8 +12,8 @@ export default function(ComposedComponent) {
     render() {
 
       return <Loader loading={!this.props.authenticated}> 
-          <ComposedComponent {...this.props} />;
-        </Loader>;
+          <ComposedComponent {...this.props} />
+        </Loader>
     }
   }
 

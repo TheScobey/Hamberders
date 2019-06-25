@@ -32,7 +32,7 @@ function PageAppBar(props) {
                     </IconButton>*/
                 }
                 <Typography variant="h6" color="inherit" className={classes.grow}>
-                    Burger Tracker v1.09
+                    Burger Tracker v1.1
                     </Typography>
                 {
                     auth ? <Avatar>{auth ? auth.displayName.split(" ").map(s => s[0]) : 'IDK'}</Avatar> : undefined

@@ -176,6 +176,10 @@ class VisitsList extends Component {
 
           }}
         />
+        <Typography variant="h4" component="h4">
+          Total Burgs: {this.props.data ? Object.keys(this.props.data).length : 'None'}
+        </Typography>
+
         <ReactTooltip />
       </Paper>
     );
