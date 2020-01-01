@@ -75,7 +75,7 @@ class VisitsList extends Component {
     });
 
     var startDate = new Date("01/01/2019");
-    var endDate = new Date("12/31/2019");
+    var endDate = new Date("01/03/2020");
 
     const allDates = this.getDates(startDate, endDate);
 
@@ -120,7 +120,7 @@ class VisitsList extends Component {
   render() {
 
     const calcStartDate = this.state.selectedRange ? this.state.selectedRange.value.startDate : new Date('2018-01-01')
-    const calcEndDate = this.state.selectedRange ? this.state.selectedRange.value.endDate : new Date('2020-01-01')
+    const calcEndDate = this.state.selectedRange ? this.state.selectedRange.value.endDate : new Date('2020-03-01')
 
     return (
       <Paper className={this.props.classes.root} elevation={1}>
@@ -154,7 +154,7 @@ class VisitsList extends Component {
           startDate={calcStartDate}
           endDate={calcEndDate}
           values={this.getValueVisits()}
-          onClick={value => value.fake ? this.addAVisit(value) : this.removeAVisit(value.vid)}
+          onClick={value => value && value.fake ? this.addAVisit(value) : this.removeAVisit(value.vid)}
           classForValue={(value) => {
             if (!value) {
               return 'color-empty';

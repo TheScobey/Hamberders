@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Loader from "../Loader";
+import { Typography } from "@material-ui/core";
 
 export default function(ComposedComponent) {
   class Authentication extends Component {
@@ -11,9 +12,14 @@ export default function(ComposedComponent) {
     
     render() {
 
-      return <Loader loading={!this.props.authenticated}> 
+      return this.props.authenticated ? <ComposedComponent {...this.props} />
+        : <Typography>Please login</Typography>
+        
+      
+      {/*<Loader loading={!this.props.authenticated}> 
           <ComposedComponent {...this.props} />
-        </Loader>
+      </Loader>*/}
+
     }
   }
 
